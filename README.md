@@ -1,50 +1,120 @@
-# Welcome to your Expo app 👋
+## NativeWind React Native Expo Template (Arch Linux Friendly)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This repo is a minimal starter for building React Native apps with **Expo**, **NativeWind** (TailwindCSS for React Native), and **Expo Router**.  
+It is known to work on **Arch Linux** with a recent Node and npm.
 
-## Get started
+### Tech stack
 
-1. Install dependencies
+- **Expo** (`expo`, `expo-router`) for app runtime and file‑based routing
+- **React Native** (`react-native`, `react-native-web`) for cross‑platform UI
+- **NativeWind + TailwindCSS** (`nativewind`, `tailwindcss`, `prettier-plugin-tailwindcss`) for utility‑first styling
+- **React Navigation** (`@react-navigation/*`) for navigation primitives
+- **TypeScript + ESLint** for type‑safe development and linting
 
-   ```bash
-   npm install
-   ```
+### Prerequisites (Arch Linux)
 
-2. Start the app
+- **Node.js** (use the LTS or the version recommended by Expo)
+- **npm** or **pnpm/yarn** (examples below use npm)
+- Android SDK / emulator (optional, for running on Android)
 
-   ```bash
-   npx expo start
-   ```
+On Arch, you can typically install Node with:
 
-In the output, you'll find options to open the app in a
+```bash
+sudo pacman -S nodejs npm
+```
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Then install the Expo CLI if you want the global command:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+```bash
+npm install -g expo
+```
 
-## Get a fresh project
+### Install dependencies
 
-When you're ready, run:
+From the project root:
+
+```bash
+npm install
+```
+
+### Run the app
+
+- **Start Metro bundler (default Expo dev tools):**
+
+```bash
+npm start
+```
+
+- **Run on Android emulator/device:**
+
+```bash
+npm run android
+```
+
+- **Run on web (React Native Web):**
+
+```bash
+npm run web
+```
+
+When the dev server is up, follow the terminal or browser instructions to open the app on:
+
+- A development build
+- Android emulator / device
+- Expo Go (if supported for your features)
+
+### Using NativeWind & Tailwind
+
+- Tailwind is configured in `tailwind.config.js` with `nativewind/preset`.
+- You can use Tailwind classes directly via the `className` prop:
+
+```tsx
+<View className="flex-1 items-center justify-center bg-slate-900">
+  <Text className="text-white text-xl font-bold">Hello NativeWind</Text>
+</View>
+```
+
+- All screens/components under `app/` and `components/` are already included in the Tailwind content paths.
+
+### Project structure
+
+- `app/` – Expo Router routes and screens
+- `app/_layout.tsx` – navigation layout
+- `app/global.css` – global styles for web
+- `tailwind.config.js` – Tailwind / NativeWind configuration
+- `nativewind-env.d.ts` – NativeWind TypeScript helpers
+
+### Linting
+
+Run ESLint via Expo:
+
+```bash
+npm run lint
+```
+
+### Resetting to a blank Expo project
+
+This template still includes the helper script from `create-expo-app`:
 
 ```bash
 npm run reset-project
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+This moves the starter code into `app-example/` and creates a fresh `app/` directory.
 
-## Learn more
+### Notes for Arch Linux users
 
-To learn more about developing your project with Expo, look at the following resources:
+- If you have issues with Android emulators, ensure `android-tools`, `android-sdk`, and required images are installed and that `ANDROID_HOME`/`ANDROID_SDK_ROOT` are set.
+- If Metro fails to start due to watch limits, increase inotify watches:
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+echo "fs.inotify.max_user_watches=524288" | sudo tee /etc/sysctl.d/40-max-user-watches.conf
+sudo sysctl --system
+```
 
-## Join the community
+After that, restart the dev server:
 
-Join our community of developers creating universal apps.
+```bash
+npm start
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
